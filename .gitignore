@@ -3,3 +3,5 @@
 .lsp/
 .direnv/
 result*
+/.nrepl-port
+/target/

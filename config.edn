@@ -1,0 +1,9 @@
+{:output-schema
+ {:order_id String
+;;   , :bank String
+;;   , :is_offer_txn Boolean
+;;   , :amount Double
+;;   , :date_created_utc DateTime
+;;   , :log_count Long
+  }
+ }

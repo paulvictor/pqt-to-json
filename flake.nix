@@ -10,9 +10,18 @@
   outputs = { self, nixpkgs, flake-utils, clj-nix }:
 
     flake-utils.lib.eachDefaultSystem (system: {
+      devShells.default =
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in pkgs.mkShell {
+          packages = [
+            pkgs.openjdk21_headless
+            pkgs.clojure
+          ];
+      };
 
       packages = {
-
+        deps-lock = clj-nix.packages."${system}".deps-lock;
         default = clj-nix.lib.mkCljApp {
           pkgs = nixpkgs.legacyPackages.${system};
           modules = [
@@ -20,8 +29,8 @@
             # https://jlesquembre.github.io/clj-nix/options/
             {
               projectSrc = ./.;
-              name = "me.lafuente/cljdemo";
-              main-ns = "hello.core";
+              name = "in.juspay/json-to-pqt";
+              main-ns = "json-to-pqt/core";
 
               nativeImage.enable = true;
 

@@ -1,2 +1,26 @@
-{:deps {org.clojure/clojure {:mvn/version "1.11.1"}}
- :paths ["src"]}
+{:deps {
+        org.clojure/clojure {:mvn/version "1.11.1"}
+        org.clojure/data.json {:mvn/version "2.5.0"}
+        ;; https://mvnrepository.com/artifact/joda-time/joda-time
+        joda-time/joda-time {:mvn/version "2.12.7"}
+        techascent/tech.ml.dataset {:mvn/version "7.030"}
+        ;; https://mvnrepository.com/artifact/org.apache.commons/commons-compress
+        org.apache.commons/commons-compress {:mvn/version "1.26.2"}
+        techascent/tech.config {:mvn/version "0.3.15"}
+        cprop/cprop {:mvn/version "0.1.20"}
+        cli-matic/cli-matic
+        {:git/url "https://github.com/l3nz/cli-matic.git"
+         :sha "ddbcad077ba63e0abb3597a7ec6f62c40f91c9e5"}
+        com.techascent/tmd-parquet {:mvn/version "1.000-beta-39"}
+        ;; https://mvnrepository.com/artifact/org.apache.parquet/parquet-hadoop
+        org.apache.parquet/parquet-hadoop {:mvn/version "1.14.1"}
+}
+
+ :paths ["src"]
+
+ :aliases {
+           :build {
+                   :deps {io.github.clojure/tools.build {:mvn/version "0.10.4"}}
+                   :ns-default build
+                   }
+           }}
