@@ -6,7 +6,8 @@
    [cprop.core :as config :refer [load-config]]
    [cli-matic.core :refer [run-cmd]]
    [clojure.tools.cli :refer [parse-opts]]
-   [tech.v3.libs.parquet :as parquet])
+   [tech.v3.libs.parquet :as parquet]
+   [tech.v3.dataset :as ds])
   (:import
    (java.util.zip GZIPInputStream
                   GZIPOutputStream)
@@ -18,14 +19,9 @@
    (java.time Instant))
   (:gen-class))
 
-(defn from-gzip
-  [input]
-  (-> input
-      GZIPInputStream.))
-
 (def cli-opts
-  [["-i" "--input-file FILE"
-    "-o" "--output-file FILE"]])
+  [["-i" "--input-file FILE"]
+   ["-o" "--output-file FILE"]])
 
 (defn conform-to-schema
   [schema k v]
@@ -40,6 +36,7 @@
       (Math/round v)
       :else v)))
 
+;; TODO instead of filtering null keys, we should typecast the nil's to the respective types as mentioned in the schema
 (defn filter-null-keys
   [m]
   (into {}
@@ -53,7 +50,6 @@
         {{:keys [input-file output-file]} :options} (parse-opts args cli-opts)]
     (with-open [input
                 (-> input-file file FileInputStream.)]
-      (println (str "Parsing for" output-schema))
       (let
           [stream (->> input
                        GZIPInputStream.
@@ -63,6 +59,8 @@
                        (map #(json/read-str %
                                             :key-fn keyword
                                             :value-fn (partial conform-to-schema output-schema)))
-                       )
+                       (map filter-null-keys)
+                       (partition-all 10000)
+                       (map ds/->dataset))
            parquet-options {:compression-codec :zstd}]
-        (parquet/ds-seq->parquet output-file (map filter-null-keys stream))))))
+        (parquet/ds-seq->parquet  output-file parquet-options stream)))))
