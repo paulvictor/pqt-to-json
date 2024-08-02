@@ -11,12 +11,7 @@
   (:import
    (java.util.zip GZIPInputStream
                   GZIPOutputStream)
-   (java.io FileInputStream
-            FileOutputStream
-            BufferedInputStream
-            ByteArrayOutputStream)
-   (java.time.format DateTimeParseException)
-   (java.time Instant))
+   (java.io FileInputStream))
   (:gen-class))
 
 (def cli-opts
@@ -25,22 +20,18 @@
 
 (defn select-only-valid-keys
   [valid-keys k v]
-  (and
-   (valid-keys k)
-   (not (vector? v))
-   v))
+  (when (and
+         (valid-keys k)
+         (not (vector? v)))
+    v))
 
 (defn -main [& args]
   (let [{:keys [output-schema]} (config/load-config)
         {{:keys [input-file output-file]} :options} (parse-opts args cli-opts)]
-    (prn output-schema)
     (with-open [input
                 (-> input-file file FileInputStream.)]
       (let
-          [valid-keys (let [ vkeys (hash-set (keys output-schema))]
-
-                        (prn vkeys)
-                        vkeys)
+          [valid-keys (into (hash-set) (keys output-schema))
            stream (->> input
                        GZIPInputStream.
                        java.io.InputStreamReader.
@@ -49,12 +40,8 @@
                        (map #(json/read-str %
                                             :key-fn keyword
                                             :value-fn (partial select-only-valid-keys valid-keys)))
-                       (take 100000)
-                       ;; (map (fn [j]
-;;                               (prn j)
-;;                               j))
-
-                       (partition-all 10000)
+                       (take 194242)
+                       (partition-all 194242)
                        (map #(ds/->dataset % {:parser-fn output-schema})))
            parquet-options {:compression-codec :zstd}]
         (parquet/ds-seq->parquet  output-file parquet-options stream)))))
