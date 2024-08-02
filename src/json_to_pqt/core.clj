@@ -23,44 +23,38 @@
   [["-i" "--input-file FILE"]
    ["-o" "--output-file FILE"]])
 
-(defn conform-to-schema
-  [schema k v]
-  (when-let [desired-type (schema k)]
-    (cond
-      (= 'DateTime desired-type)
-      (try
-        (Instant/parse v)
-        (catch DateTimeParseException e nil))
-      (and (= desired-type Long)
-           (instance? Double v))
-      (Math/round v)
-      :else v)))
-
-;; TODO instead of filtering null keys, we should typecast the nil's to the respective types as mentioned in the schema
-(defn filter-null-keys
-  [m]
-  (into {}
-        (filter
-         (fn [[k v]]
-           (not (nil? v)))
-         m)))
+(defn select-only-valid-keys
+  [valid-keys k v]
+  (and
+   (valid-keys k)
+   (not (vector? v))
+   v))
 
 (defn -main [& args]
   (let [{:keys [output-schema]} (config/load-config)
         {{:keys [input-file output-file]} :options} (parse-opts args cli-opts)]
+    (prn output-schema)
     (with-open [input
                 (-> input-file file FileInputStream.)]
       (let
-          [stream (->> input
+          [valid-keys (let [ vkeys (hash-set (keys output-schema))]
+
+                        (prn vkeys)
+                        vkeys)
+           stream (->> input
                        GZIPInputStream.
                        java.io.InputStreamReader.
                        java.io.BufferedReader.
                        line-seq
                        (map #(json/read-str %
                                             :key-fn keyword
-                                            :value-fn (partial conform-to-schema output-schema)))
-                       (map filter-null-keys)
+                                            :value-fn (partial select-only-valid-keys valid-keys)))
+                       (take 100000)
+                       ;; (map (fn [j]
+;;                               (prn j)
+;;                               j))
+
                        (partition-all 10000)
-                       (map ds/->dataset))
+                       (map #(ds/->dataset % {:parser-fn output-schema})))
            parquet-options {:compression-codec :zstd}]
         (parquet/ds-seq->parquet  output-file parquet-options stream)))))

@@ -1,0 +1,7 @@
+{:output-schema
+ {:order_id :string
+  :bank :string
+  :is_offer_txn :boolean
+  :amount :float64
+  :date_created_utc :instant
+  :log_count :int64}}

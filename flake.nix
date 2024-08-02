@@ -17,8 +17,8 @@
           packages = [
             pkgs.openjdk21_headless
             pkgs.clojure
-#             pkgs.duckdb
-#             pkgs.parquet-tools
+            pkgs.duckdb
+            pkgs.parquet-tools
           ];
       };
 

@@ -1,9 +1,476 @@
 {:output-schema
- {:order_id String
-  :bank String
-  :is_offer_txn Boolean
-  :amount Double
-  :date_created_utc DateTime
-  :log_count Long
-  }
- }
+ {
+
+   :actual_payment_status :string,
+
+   :add_to_locker :bool,
+
+   :amount :float64,
+
+   :amount_refunded :float64,
+
+   :app_name :string,
+
+   :auth_status :string,
+
+   :auth_type :string,
+
+   :card_brand :string,
+
+   :card_exp_month :string,
+
+   :card_exp_year :string,
+
+   :card_global_fingerprint :string,
+
+   :card_isin :string,
+
+   :card_issuer_bank_name :string,
+
+   :card_last_four_digits :string,
+
+   :card_reference_id :string,
+
+   :card_type :string,
+
+   :challenges_attempted :long,
+
+   :channel :string,
+
+   :circle_id :string,
+
+   :circle_name :string,
+
+   :customer_email :string,
+
+   :customer_id :string,
+
+   :customer_phone :string,
+
+   :date_created :long,
+
+   :date_created_day :long,
+
+   :date_created_hour :long,
+
+   :date_created_ist :long,
+
+   :date_created_ist_text :instant,
+
+   :date_created_month :long,
+
+   :date_created_text :instant,
+
+   :date_created_utc :instant,
+
+   :date_created_year :long,
+
+   :debit_amount :float64,
+
+   :description :string,
+
+   :discount_amount :float64,
+
+   :dropout_reason :string,
+
+   :ec_card_fingerprint :string,
+
+   :emi :bool,
+
+   :emi_bank :string,
+
+   :emi_tenure :string,
+
+   :emi_type :string,
+
+   :epg_txn_id :string,
+
+   :error_message :string,
+
+   :gateway_auth_req_params :string,
+
+   :gateway_reference_id :string,
+
+   :is_cvv_less_txn :bool,
+
+   :is_offer_txn :bool,
+
+   :is_refund_log :bool,
+
+   :is_success :bool,
+
+   :is_token_bin :string,
+
+   :is_tokenized :bool,
+
+   :issuer_token_reference :bool,
+
+   :issuer_tokenization_consent_failure_reason :string,
+
+   :juspay_bank_code :string,
+
+   :juspay_error_code :string,
+
+   :juspay_error_message :string,
+
+   :juspay_txn_id :string,
+
+   :lob :string,
+
+   :log_count :long,
+
+   :mandate_feature :string,
+
+   :merchant_id :string,
+
+   :merge_session :string,
+
+   :mid :string,
+
+   :name_on_card :string,
+
+   :net_amount :float64,
+
+   :offer_code :string,
+
+   :offer_deduction_amount :float64,
+
+   :ord_currency :string,
+
+   :order_amount :float64,
+
+   :order_date_created :long,
+
+   :order_date_created_text :instant,
+
+   :order_id :string,
+
+   :order_last_modified :long,
+
+   :order_last_modified_text :instant,
+
+   :order_reference_id :string,
+
+   :order_source_object :string,
+
+   :order_status :string,
+
+   :order_type :string,
+
+   :order_uuid :string,
+
+   :os :string,
+
+   :payment_flow :string,
+
+   :payment_gateway :string,
+
+   :payment_instrument_group :string,
+
+   :payment_method :string,
+
+   :payment_method_type :string,
+
+   :payment_source :string,
+
+   :payment_status :string,
+
+   :pgr_auth_code :string,
+
+   :pgr_epg_txn_id :string,
+
+   :pgr_rrn :string,
+
+   :platform :string,
+
+   :preferred_gateway :string,
+
+   :prev_gateway_resp_code :string,
+
+   :prev_gateway_resp_message :string,
+
+   :prev_order_status :string,
+
+   :prev_txn_status :string,
+
+   :priority_logic_tag :string,
+
+   :product_id :string,
+
+   :refund_date :long,
+
+   :refund_id :string,
+
+   :refund_to_list :string,
+
+   :refunded_entirely :bool,
+
+   :resp_code :string,
+
+   :resp_message :string,
+
+   :return_url :string,
+
+   :risk_flagged :bool,
+
+   :risk_recommended_action :string,
+
+   :risk_status :string,
+
+   :risk_xml :string,
+
+   :second_factor_url :string,
+
+   :source_object :string,
+
+   :source_object_id :string,
+
+   :status_sync_source :string,
+
+   :stored_card_vault_provider :string,
+
+   :surcharge_amount :float64,
+
+   :tax_amount :float64,
+
+   :ticket_size :string,
+
+   :token_generated :bool,
+
+   :token_reference :bool,
+
+   :token_repeat :string,
+
+   :tokenization_consent :bool,
+
+   :tokenization_consent_failure_reason :string,
+
+   :tokenization_consent_ui_presented :bool,
+
+   :tokenization_failure_reason :string,
+
+   :txn_conflict :string,
+
+   :txn_currency :string,
+
+   :txn_detail_id :string,
+
+   :txn_flow_type :string,
+
+   :txn_initiated :long,
+
+   :txn_initiated_text :instant,
+
+   :txn_last_modified :long,
+
+   :txn_last_modified_text :instant,
+
+   :txn_last_updated :long,
+
+   :txn_last_updated_text :instant,
+
+   :txn_latency :long,
+
+   :txn_latency_enum :string,
+
+   :txn_object_type :string,
+
+   :txn_offer_benefit_id :string,
+
+   :txn_type :string,
+
+   :txn_uuid :string,
+
+   :udf1 :string,
+
+   :udf10 :string,
+
+   :udf2 :string,
+
+   :udf3 :string,
+
+   :udf4 :string,
+
+   :udf5 :string,
+
+   :udf6 :string,
+
+   :udf7 :string,
+
+   :udf8 :string,
+
+   :udf9 :string,
+
+   :unified_response_category :string,
+
+   :user_agent :string,
+
+   :user_ip_address :string,
+
+   :using_stored_card :bool,
+
+   :version :string,
+
+   :mandate_alert :string,
+
+   :mandate_alert_message :string,
+
+   :business_region :string,
+
+   :order_refunded_entirely :bool,
+
+   :order_source_object_id :string,
+
+   :order_amount_refunded :float64,
+
+   :order_last_synced :long,
+
+   :token_id :string,
+
+   :bank_name :string,
+
+   :reseller_id :string,
+
+   :industry :string,
+
+   :product_integrated :string,
+
+   :merchant_track :string,
+
+   :is_restricted_mode :string,
+
+   :original_card_isin :string,
+
+   :card_issuer_country :string,
+
+   :card_sub_type :string,
+
+   :is_reque_attempted :bool,
+
+   :extended_card_type :string,
+
+   :offer_status :string,
+
+   :wallet_topup_txn_status :string,
+
+   :effective_amount :float64,
+
+   :is_retried_order :bool,
+
+   :is_retargeted_order :bool,
+
+   :total_offer_amount :float64,
+
+   :tokenized_flow :bool,
+
+   :offer_error_code :string,
+
+   :merchant_offer_code :string,
+
+   :offer_id :string,
+
+   :mandate_id :string,
+
+   :mandate_status :string,
+
+   :mandate_start_date :long,
+
+   :mandate_end_date :long,
+
+   :mandate_created_at :long,
+
+   :mandate_max_amount :float64,
+
+   :mandate_gateway :string,
+
+   :offer_error_message :string,
+
+   :unique_offer_id :string,
+
+   :offer_total_discount_amount :float64,
+
+   :offer_total_cashback_amount :float64,
+
+   :offer_total_emi_discount_amount :float64,
+
+   :unique_emi_offer_benefit_type :string,
+
+   :unique_offer_benefit_types :string,
+
+   :mandate_start_date_text :instant,
+
+   :mandate_end_date_text :instant,
+
+   :mandate_created_at_text :instant,
+
+   :unique_emi_offer_benefit_types :string,
+
+   :is_upicc :bool,
+
+   :risk_message :string,
+
+   :pg_udf1 :string,
+
+   :pg_udf2 :string,
+
+   :pg_udf3 :string,
+
+   :full_udf1 :string,
+
+   :full_udf10 :string,
+
+   :full_udf2 :string,
+
+   :full_udf3 :string,
+
+   :full_udf4 :string,
+
+   :full_udf5 :string,
+
+   :full_udf6 :string,
+
+   :full_udf7 :string,
+
+   :full_udf8 :string,
+
+   :full_udf9 :string,
+
+   :routing_approach :string,
+
+   :routing_approach_v2 :string,
+
+   :entire_payment_flow :string,
+
+   :mandate_failure_message :string,
+
+   :mandate_failure_code :string,
+
+   :is_internally_retried :bool,
+
+   :split_txn_type :string,
+
+   :mai :string,
+
+   :merchant_name :string,
+
+   :merchant_gateway_account_id :long,
+
+   :gateway_before_evaluation :string,
+
+   :is_gateway_switched :bool,
+
+   :mandate_execution_id :string,
+
+   :is_business_retried :string,
+
+   :is_technical_retried :string,
+
+   :locker_card_token :string,
+
+   :par :string,
+
+   :txn_flow_sub_type :string,
+
+  :authorized_time :instant }}
+
+
