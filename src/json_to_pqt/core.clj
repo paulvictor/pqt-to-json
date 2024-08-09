@@ -40,8 +40,8 @@
                        (map #(json/read-str %
                                             :key-fn keyword
                                             :value-fn (partial select-only-valid-keys valid-keys)))
-                       (take 194242)
-                       (partition-all 194242)
-                       (map #(ds/->dataset % {:parser-fn output-schema})))
+                       (ds/->>dataset {:parser-fn output-schema}))
            parquet-options {:compression-codec :zstd}]
-        (parquet/ds-seq->parquet  output-file parquet-options stream)))))
+          (parquet/ds->parquet stream
+                               output-file
+                               parquet-options)))))
